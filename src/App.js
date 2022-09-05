@@ -11,22 +11,34 @@ class App extends Component {
       monsters: [],
       searchField: ''
     }
+    console.log('constructor');
   }
 
   componentDidMount(){
+    console.log('componentDidMount');
     fetch('https://jsonplaceholder.typicode.com/users')
     .then(response =>response.json())
-    .then(users => this.setState({ monsters: users}))
+    .then(users => 
+      this.setState(
+        () => {
+          return { monsters: users };
+        },
+        () => {
+          console.log(this.state);
+        }
+      )
+    );
   }
 
   handleChange = (e) => {
-    this.setState({ searchField: e.target.value})
+    this.setState({ searchField: e.target.value })
   }
 
   render(){
-    //const { monsters, searchField} = this.state;
-    const monsters = this.state.monsters;
-    const searchField = this.state.searchField;
+    console.log('render');
+    const { monsters, searchField } = this.state;
+    // const monsters = this.state.monsters;
+    // const searchField = this.state.searchField;
     const filteredMonsters = monsters.filter( monster => 
       monster.name.toLowerCase().includes(searchField.toLowerCase())
       );
